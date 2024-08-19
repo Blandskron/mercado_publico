@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>{{ licitacion.Nombre }}</h2>
+<p><strong>Estado:</strong> {{ licitacion.CodigoEstado }}</p> <!-- Verifica si es CodigoEstado o Estado -->
+<p><strong>Descripción:</strong> {{ licitacion.Descripcion }}</p>
+<p><strong>Fecha de Cierre:</strong> {{ licitacion.FechaCierre }}</p>
+<p><strong>Organismo:</strong> {{ licitacion.Comprador.NombreOrganismo }}</p> <!-- Asegúrate que 'Comprador' es correcto -->
+<p><a href="{% url 'list_licitaciones' %}" class="btn btn-primary">Volver a Licitaciones</a></p>
+{% endblock %}

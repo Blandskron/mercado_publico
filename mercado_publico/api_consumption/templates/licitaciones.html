@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Licitaciones</h2>
+
+<form method="get" class="mb-4">
+    <div class="row">
+        <div class="col-md-3">
+            <label for="fecha" class="form-label">Fecha (ddmmaaaa):</label>
+            <input type="text" id="fecha" name="fecha" class="form-control" placeholder="ddmmaaaa">
+        </div>
+        <div class="col-md-3">
+            <label for="estado" class="form-label">Estado:</label>
+            <select id="estado" name="estado" class="form-select">
+                <option value="">Todos</option>
+                <option value="5">Publicada</option>
+                <option value="6">Cerrada</option>
+                <option value="7">Desierta</option>
+                <option value="8">Adjudicada</option>
+                <option value="18">Revocada</option>
+                <option value="19">Suspendida</option>
+            </select>
+        </div>
+        <div class="col-md-3">
+            <label for="codigo" class="form-label">Código de Licitación:</label>
+            <input type="text" id="codigo" name="codigo" class="form-control" placeholder="Ej: 1509-5-L114">
+        </div>
+        <div class="col-md-3">
+            <label for="CodigoOrganismo" class="form-label">Código de Organismo:</label>
+            <input type="text" id="CodigoOrganismo" name="CodigoOrganismo" class="form-control" placeholder="Ej: 6945">
+        </div>
+        <div class="col-md-3">
+            <label for="CodigoProveedor" class="form-label">Código de Proveedor:</label>
+            <input type="text" id="CodigoProveedor" name="CodigoProveedor" class="form-control" placeholder="Ej: 17793">
+        </div>
+        <div class="col-md-3 mt-4">
+            <button type="submit" class="btn btn-primary mt-2">Buscar</button>
+        </div>
+    </div>
+</form>
+
+{% if no_data %}
+    <div class="alert alert-warning" role="alert">
+        No se encontraron licitaciones disponibles con los filtros aplicados.
+    </div>
+{% else %}
+    <ul class="list-group">
+        {% for licitacion in page_obj %}
+        <li class="list-group-item">
+            <a href="{% url 'licitacion_detail' licitacion.CodigoExterno %}">
+                {{ licitacion.Nombre }}
+            </a>
+        </li>
+        {% endfor %}
+    </ul>
+    <nav aria-label="Page navigation">
+        <ul class="pagination mt-4">
+            {% if page_obj.has_previous %}
+            <li class="page-item">
+                <a class="page-link" href="?{% for key, value in request.GET.items %}{% if key != 'page' %}{{ key }}={{ value }}&{% endif %}{% endfor %}page={{ page_obj.previous_page_number }}" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+            {% endif %}
+            {% for num in page_obj.paginator.page_range %}
+            <li class="page-item {% if page_obj.number == num %}active{% endif %}">
+                <a class="page-link" href="?{% for key, value in request.GET.items %}{% if key != 'page' %}{{ key }}={{ value }}&{% endif %}{% endfor %}page={{ num }}">{{ num }}</a>
+            </li>
+            {% endfor %}
+            {% if page_obj.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="?{% for key, value in request.GET.items %}{% if key != 'page' %}{{ key }}={{ value }}&{% endif %}{% endfor %}page={{ page_obj.next_page_number }}" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+            {% endif %}
+        </ul>
+    </nav>
+{% endif %}
+{% endblock %}

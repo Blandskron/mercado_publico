@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>{{ orden.Nombre }}</h2>
+<p><strong>Estado:</strong> {{ orden.EstadoProveedor }}</p> <!-- Verifica si es EstadoProveedor o Estado -->
+<p><strong>Descripción:</strong> {{ orden.Descripcion }}</p>
+<p><strong>Total Neto:</strong> {{ orden.TotalNeto }}</p>
+<p><strong>Organismo:</strong> {{ orden.Comprador.NombreOrganismo }}</p> <!-- Asegúrate que 'Comprador' es correcto -->
+<p><a href="{% url 'list_ordenes' %}" class="btn btn-primary">Volver a Órdenes de Compra</a></p>
+{% endblock %}
